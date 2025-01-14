@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 30초 마다 설정 파일의 변경 확인 왜?  -->
+<configuration scan="true" scanPeriod="30 Seconds">
+	<property resource="logback-prod.properties"/>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID:- } --- [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${dir.log.home}/CheckStoreList.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 파일이 하루에 한개씩 생성된다 -->
+            <fileNamePattern>${dir.log.home}/CheckStoreList.%d{yyyy-MM-dd}.log</fileNamePattern>
+ 
+            <!-- 30일이 지난 파일은 삭제가 된다.-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+ 
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID:- } --- [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+	<appender name="REQRES"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${dir.log.home}/esn_web_reqres.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 파일이 하루에 한개씩 생성된다 -->
+			<fileNamePattern>${dir.log.home}/esn_web_reqres.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID:- } --- [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="SERVICE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${dir.log.home}/CheckStoreListService.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 파일이 하루에 한개씩 생성된다 -->
+			<fileNamePattern>${dir.log.home}/CheckStoreListService.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID:- } --- [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+ 
+	<!--   
+    <logger name="org.mybatis" level="debug"/>
+    <logger name="jdbc.sqltiming" level="warn"/>
+    <logger name="jdbc.resultsettable" level="info"/>
+    <logger name="jdbc.sqlonly" level="warn"/>
+    <logger name="jdbc.resultset" level="warn"/>
+    <logger name="jdbc.audit" level="warn"/>
+    <logger name="jdbc.connection" level="warn"/>
+      -->
+    <logger name="org.springframework" level="info"/> 
+    <logger name="org.apache.commons.digester" level="warn"/>
+    <logger name="org.apache.http" level="warn"/>
+   
+    
+	<!-- TRACE > DEBUG > INFO > WARN > ERROR, 대소문자 구분 안함 -->
+	<!-- profile 을 읽어서 appender 을 설정할수 있다.(phase별 파일을 안만들어도 되는 좋은 기능) -->
+	<springProfile name="dev">
+		<root level="DEBUG">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="console" />
+		</root>
+		<logger name="com.northbr.test.logger.HttpLoggingFilter" level="debug">
+			<appender-ref ref="REQRES" />
+		</logger>
+
+		<logger name="com.northbr.test.service.impl.TestServiceImpl" level="debug">
+			<appender-ref ref="SERVICE" />
+		</logger>
+	</springProfile>
+	<springProfile name="prod">
+		<root level="INFO">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="console" />
+		</root>
+		<logger name="com.northbr.test.logger.HttpLoggingFilter" level="info">
+			<appender-ref ref="REQRES" />
+		</logger>
+
+		<logger name="com.northbr.test.service.impl.TestServiceImpl" level="info">
+			<appender-ref ref="SERVICE" />
+		</logger>
+
+	</springProfile>
+</configuration>

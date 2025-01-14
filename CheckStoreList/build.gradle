@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.15'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war'
+}
+
+bootWar {
+	archiveBaseName = 'CheckStoreList'
+	archiveFileName = 'web.war'
+	archiveVersion = '0.0.1'
+}
+
+group = 'com.ateciot'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = 'VERSION_1_8'
+	//sourceCompatibility = '1.8'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	/*compile -> implementaion*/
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10'
+	
+	/*mail*/
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.2.0.RELEASE'
+    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+    
+    implementation group: 'ognl', name: 'ognl', version: '3.0.4'
+    
+	
+	/*for exclude tomcat deploy*/
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+}
+

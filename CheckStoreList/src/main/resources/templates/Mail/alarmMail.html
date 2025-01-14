@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+</head>
+
+<body>
+    <div>
+   		 <div th:style="${'font-weight: bolder; padding: 10px; font-size: x-large'}">
+            매장 알람 [[${currentTime}]]요일 기준
+        </div>
+    	<div th:style="${'font-weight: bolder; padding: 10px; font-size: large'}">
+    		<a th:style="${'text-decoration: none; color: inherit'}" href='http://61.33.142.222:3000/' target='_blank' rel='noopener noreferrer'>
+	         8Seconds 모니터링 시스템 링크 : http://61.33.142.222:3000/
+	         </a>
+    	</div>
+		<div th:style="${'font-weight: bolder; padding: 10px; font-size: x-large'}">
+            
+        </div>
+        <table 
+          th:style="${'width: 100%; 
+                      border: 1px solid #444444;
+                      text-align: center; 
+                      border-collapse: collapse;'}"
+        >
+
+            <tr th:style="${'background-color: #4B4E5E; color: white; font-weight: bolder '}">
+                <th 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                >발생 일시</th>
+                <th 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                >알람 타입</th>
+                <th 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                >매장명</th>
+                <th 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                >매장 코드</th>
+                 <th 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                >알람 상태</th>
+                <th 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                >장애 내용</th>
+            </tr>
+            <tr th:each="alarm : ${listAlarmStatus}" th:style="${'font-weight: bold'}">
+                <td 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                th:text="${alarm.alarmOccurTime}">
+                </td>
+                <td 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                th:text="${alarm.ObjectType}">
+                </td>
+                <td 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                th:text="${alarm.objectName}">
+                </td>
+                <td 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                th:text="${alarm.objectId}">
+                </td>
+                 <td 
+                th:style="${alarm.alarmState == 'ERROR' ? 'border: 1px solid #444444; padding: 5px; color: white; background-color: red' : 'border: 1px solid #444444; padding: 5px; color: white; background-color: blue'}"
+                th:text="${alarm.alarmState}">
+                </td>
+                <td 
+                th:style="${'border: 1px solid #444444; padding: 5px; '}"
+                th:text="${alarm.alarmType}">
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+
+</html>
